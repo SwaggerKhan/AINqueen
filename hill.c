@@ -59,7 +59,9 @@ int isValid(int array[], int curRow, int curCol)
     int i;
     if(length(array))
     {
-        for(i=0;i<length(array);i++) if(i==curRow || array[i]==curCol || abs(i-curRow)==abs(array[i]-curCol)) return 0;
+        for(i=0;i<length(array);i++) 
+        if(i==curRow || array[i]==curCol || abs(i-curRow)==abs(array[i]-curCol)) 
+        return 0;
         return 1;
     } 
     else return 1;
