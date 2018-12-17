@@ -5,7 +5,7 @@
 #include <math.h>
 #include "hill.h"
 
-#define e 2.718281828459045 //double
+#define e 2.718281828459045  
 int s;
 int ans[100] = {};
 void printArr(int array[])
@@ -20,12 +20,12 @@ int getWeigh(int array[])
     int weight = 0;
     int queen;
     for(queen=0;queen<s;queen++)
-    {    //for each queen
+    {     
         int nextqueen;
         for(nextqueen=queen+1;nextqueen<s;nextqueen++)
-        {        //for each of the other queens (nextqueen = queen to avoid counting pairs twice)
+        {         
             if(array[queen] == array[nextqueen] || abs(queen-nextqueen)==abs(array[queen]-array[nextqueen]))
-            {   //if conflict
+            {    
                 weight++;
             }
         }
@@ -44,7 +44,7 @@ void simulatedAnnealing(){
     int dw;
     int successor[s];
     for(k=0;k<1700000;k++)
-    {  //roughly even distribution of "took to long" and solution with this k value
+    {   
         temp *= sch;
         int i;
         for(i=0;i<s;i++) 
@@ -77,5 +77,4 @@ void siman()
     ans[i] = rand()%s;
     printArr(ans);
     simulatedAnnealing();
-    getch();;
 }

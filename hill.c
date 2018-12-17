@@ -23,7 +23,8 @@ int getRand(int mod)
 void printArray(int array[])
 {
     int i;
-    for(i=0; i<SIZE-1; i++) printf("(%i,%i),",i,array[i]);
+    for(i=0; i<SIZE-1; i++)
+    printf("(%i,%i),",i,array[i]);
     printf("(%i,%i)",SIZE-1,array[SIZE-1]);
     printf("\n");
 }
@@ -45,12 +46,12 @@ int getWeight(int array[])
     int weight = 0;
     int queen;
     for(queen=0;queen<SIZE;queen++)
-    {    //for each queen
+    {     
         int nextqueen;
         for(nextqueen=queen+1;nextqueen<SIZE;nextqueen++)
-        {        //for each of the other queens (nextqueen = queen to avoid counting pairs twice)
+        {         
             if(array[queen] == array[nextqueen] || abs(queen-nextqueen)==abs(array[queen]-array[nextqueen]))
-            {   //if conflict
+            {    
                 weight++;
             }
         }
@@ -75,28 +76,30 @@ void hillClimbing(int array[])
         int nextweight = weight;
         int queen;
         for(queen=0;queen<SIZE;queen++)
-        {                            //for each queen/row            -|
-            int origcol = array[queen];                             //save the original column       |
-            int validcol;                                           //                               |--- searching the whole board
+        {                             
+            int origcol = array[queen];                                   
+            int validcol;                                                                         
             for(validcol = 0; validcol<SIZE;validcol++)
-            {            //for each valid column          |
-                if(validcol != origcol){                            //not including the current one -|
-                    array[queen] = validcol;                        //place the queen in the next column
-                    int newweight = getWeight(array);               //get the weight of the modified board
+            {            
+                if(validcol != origcol)
+                {                           
+                    array[queen] = validcol;                       
+                    int newweight = getWeight(array);                
                     if(newweight < nextweight)
-                    {                    //if it's a better move
+                    {                     
                         int i;
                         for(i=0;i<length(nextrow);i++)
-                        {            //clear the boards
+                        {             
                             nextrow[i] = (int)NULL;
                             nextcol[i] = (int)NULL;
                         }
                         nextrow[0] = queen;
-                        nextrow[1] = -1;                //end of array char
+                        nextrow[1] = -1;                 
                         nextcol[0] = validcol;
                         nextcol[1] = -1;
                         nextweight = newweight;
                         count++;
+                        printArray(array);
                         hillClimbing(array);
                     } 
                     else if (newweight == nextweight)
@@ -112,18 +115,18 @@ void hillClimbing(int array[])
             }
             array[queen] = origcol;
         }
-        //once we're done searching the board
+         
         if (nextcol[0] != -1 && nextrow[0] != -1)
-        {          //if we've found a better move
+        {           
             int i;
             for(i=0;i<length(nextrow);i++)
-            {                 //for each nextmove that will yield a better weight
-                array[nextrow[i]] = nextcol[i];             //make it
-                count++;                                    //increase the count
+            {                  
+                array[nextrow[i]] = nextcol[i];              
+                count++;                                     
                 printf("count: %i\n",count);
-                hillClimbing(array);                        //recurse
-                count--;
-                getch();                                    //decrease the count
+                printArray(array);
+                hillClimbing(array);                         
+                count--;                                     
             }
         } 
         else
@@ -140,7 +143,7 @@ void hillClimbing(int array[])
 
 void hill()
 {
-    srand((unsigned int)time(NULL));  //seed random 
+    srand((unsigned int)time(NULL));  
     int i;
     printf("\nEnter value of n:\n");
     scanf("%d",&SIZE);
@@ -149,5 +152,4 @@ void hill()
     printf("running hill climbing with array: ");
     printArray(answers);
     hillClimbing(answers);
-    getch();
 }
