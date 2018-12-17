@@ -88,6 +88,7 @@ void hillClimbing(int array[])
 {
     start=clock();
     int weight = getWeight(array);
+    double cpu_time_used;
     if (weight == 0)
     {
         printf("\n\nsolution: ");

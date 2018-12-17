@@ -58,6 +58,7 @@ int getWt(int array[])
 void stochBeamSearch()
 {
     int state,i,j;
+    double cpu_time_used;
     for(i=0;i<k;i++)
     {
         if(getWt(answer[i]) == 0){

@@ -68,6 +68,7 @@ void simulatedAnnealing(){
     int k;
     int dw;
     int successor[s];
+    double cpu_time_used;
     for(k=0;k<1700000;k++)
     {   
         temp *= sch;
