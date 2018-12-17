@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include<conio.h>
 #include <time.h>
-#include<hill.h>
+#include "hill.h"
 int siz ;
 int k ;
 
@@ -10,7 +10,7 @@ int k ;
 //look at all successors of each state (k * SIZE * SIZE-1) = k * 56
 //implement a weighted probability distribution, so that the probability of choosing a state is proportional to fitness 28*numSuccessors
 
-int answers[50][50] = {};
+int answer[50][50] = {};
 //answers[row] = column;
 void printA(int array[])
 {
@@ -42,13 +42,13 @@ void stochBeamSearch()
     int state,i,j;
     for(i=0;i<k;i++)
     {
-        if(getWt(answers[i]) == 0){
+        if(getWt(answer[i]) == 0){
             printf("solution: ");
-            printA(answers[i]);
+            printA(answer[i]);
             getch();
         }
     }
-    for(i=0;i<k;i++) for(j=0;j<siz;j++) answers[i][j] = getRand(siz);     //fill K boards randomly
+    for(i=0;i<k;i++) for(j=0;j<siz;j++) answer[i][j] = getRand(siz);     //fill K boards randomly
     //weighted prob arrays
     int weightProb[3][12*6*k]; //{kstate,row,column}
     /* kstate - which k is it from
@@ -62,10 +62,10 @@ void stochBeamSearch()
         {  //for each row
             int col;
             for(col=0;col<siz;col++){  //for each col
-                if (answers[state][row] != col){   //not including current state
-                    int origcol = answers[state][row];
-                    answers[state][row] = col;  //change state
-                    int w = getWt(answers[state]);
+                if (answer[state][row] != col){   //not including current state
+                    int origcol = answer[state][row];
+                    answer[state][row] = col;  //change state
+                    int w = getWt(answer[state]);
                     for(i=0;i<w;i++)
                     {
                         weightProb[0][wpl] = state;
@@ -73,7 +73,7 @@ void stochBeamSearch()
                         weightProb[2][wpl] = col;
                         wpl++;
                     }
-                    answers[state][row] = origcol;
+                    answer[state][row] = origcol;
                 }
             }
         }
@@ -82,7 +82,7 @@ void stochBeamSearch()
     {
         int n = getRand(wpl);
         //          state k             row             col
-        answers[weightProb[0][n]][weightProb[1][n]] = weightProb[2][n];
+        answer[weightProb[0][n]][weightProb[1][n]] = weightProb[2][n];
     }
     stochBeamSearch();
     
@@ -95,7 +95,7 @@ void lbs()
     scanf("%d",&siz);
     printf("\nEnter value of k:\n");
     scanf("%d",&k);
-    for(int i=0;i<k;i++) for(int j=0;j<siz;j++) answers[i][j] = getRand(siz);
+    for(int i=0;i<k;i++) for(int j=0;j<siz;j++) answer[i][j] = getRand(siz);
     stochBeamSearch();
     getch();
 }

@@ -3,7 +3,7 @@
 #include<conio.h>
 #include <time.h>
 #include <math.h>
-#include<hill.h>
+#include "hill.h"
 
 #define e 2.718281828459045 //double
 int s;
