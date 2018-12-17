@@ -8,6 +8,7 @@
 #define e 2.718281828459045  
 int s;
 int ans[100] = {};
+clock_t begin, ter;
 void printArr(int array[])
 {
     int i;
@@ -86,6 +87,9 @@ void simulatedAnnealing(){
             printf("solution: ");
             printArr(ans);
             ConvertQ(ans);
+            ter=clock();
+            cpu_time_used = ((double) (ter - begin)) / CLOCKS_PER_SEC;
+            printf("\nTime used:%lf\n",cpu_time_used);
             getch();
         }
     }
@@ -94,6 +98,7 @@ void simulatedAnnealing(){
 
 void siman()
 {
+    begin=clock();
     srand((unsigned int)time(NULL));
     int i;
     printf("\nEnter value of n:\n");

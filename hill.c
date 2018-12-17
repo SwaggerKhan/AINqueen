@@ -3,6 +3,7 @@
 #include <time.h>
 #include<conio.h>
 int SIZE;
+clock_t start, end;
 int answers[100] = {};
 int count = 0;
 
@@ -85,6 +86,7 @@ int getWeight(int array[])
 
 void hillClimbing(int array[])
 {
+    start=clock();
     int weight = getWeight(array);
     if (weight == 0)
     {
@@ -92,6 +94,9 @@ void hillClimbing(int array[])
         printArray(array);
         printf("count: %i\n",count);
         ConQueen(array);
+        end=clock();
+        cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+        printf("\nTime used:%lf",cpu_time_used);
         getch();
     }
      else 

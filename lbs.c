@@ -6,6 +6,7 @@
 int siz ;
 int k ;
 int answer[50][50] = {};
+clock_t st, stop;
 void printA(int array[])
 {
     int i;
@@ -63,6 +64,9 @@ void stochBeamSearch()
             printf("solution: ");
             printA(answer[i]);
             ConvertQueen(answer[i]);
+            stop=clock();
+            cpu_time_used = ((double) (stop - st)) / CLOCKS_PER_SEC;
+            printf("\nTime used:%lf\n",cpu_time_used);
             getch();
         }
     }
@@ -105,6 +109,7 @@ void stochBeamSearch()
 
 void lbs()
 {
+    st=clock();
     srand((unsigned int)time(NULL));
     printf("\nEnter value of n:\n");
     scanf("%d",&siz);
