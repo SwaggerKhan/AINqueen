@@ -11,10 +11,34 @@ int ans[100] = {};
 void printArr(int array[])
 {
     int i;
-    for(i=0; i<s-1; i++) printf("(%i,%i),",i,array[i]);
+    for(i=0; i<s-1; i++) 
+    printf("(%i,%i),",i,array[i]);
     printf("(%i,%i)",s-1,array[s-1]);
     printf("\n");
 }
+void ConvertQ(int array[])
+{
+	int i,m,p,q;
+	int A[s][s];
+	for(i=0;i<s;i++)
+	{
+		for(m=0;m<s;m++)
+		{
+			if(m==array[i])
+			A[i][m]=1;
+		else
+            A[i][m]=0;
+	    }
+    }
+	
+	for (int p = 0; p < s; p++) 
+    	{ 
+        	for (int q = 0; q < s; q++) 
+            printf(" %d ", A[p][q]); 
+        	printf("\n"); 
+    	} 
+    	printf("\n"); 
+} 
 int getWeigh(int array[])
 {
     int weight = 0;
@@ -61,6 +85,7 @@ void simulatedAnnealing(){
         {
             printf("solution: ");
             printArr(ans);
+            ConvertQ(ans);
             getch();
         }
     }

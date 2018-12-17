@@ -13,6 +13,29 @@ void printA(int array[])
     printf("(%i,%i)",siz-1,array[siz-1]);
     printf("\n");
 }
+void ConvertQueen(int array[])
+{
+	int i,m,p,q;
+	int A[siz][siz];
+	for(i=0;i<siz;i++)
+	{
+		for(m=0;m<siz;m++)
+		{
+			if(m==array[i])
+			A[i][m]=1;
+		else
+            A[i][m]=0;
+	    }
+    }
+	
+	for (int p = 0; p < siz; p++) 
+    	{ 
+        	for (int q = 0; q < siz; q++) 
+            printf(" %d ", A[p][q]); 
+        	printf("\n"); 
+    	} 
+    	printf("\n"); 
+} 
 int getWt(int array[])
 {
     int weight = 0;
@@ -39,6 +62,7 @@ void stochBeamSearch()
         if(getWt(answer[i]) == 0){
             printf("solution: ");
             printA(answer[i]);
+            ConvertQueen(answer[i]);
             getch();
         }
     }

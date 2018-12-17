@@ -20,6 +20,30 @@ int getRand(int mod)
     return z;
 }
 
+void ConQueen(int array[])
+{
+	int i,m,p,q;
+	int A[SIZE][SIZE];
+	for(i=0;i<SIZE;i++)
+	{
+		for(m=0;m<SIZE;m++)
+		{
+			if(m==array[i])
+			A[i][m]=1;
+		else
+            A[i][m]=0;
+	    }
+    }
+	
+	for (int p = 0; p < SIZE; p++) 
+    	{ 
+        	for (int q = 0; q < SIZE; q++) 
+            printf(" %d ", A[p][q]); 
+        	printf("\n"); 
+    	} 
+    	printf("\n"); 
+} 
+
 void printArray(int array[])
 {
     int i;
@@ -67,6 +91,7 @@ void hillClimbing(int array[])
         printf("\n\nsolution: ");
         printArray(array);
         printf("count: %i\n",count);
+        ConQueen(array);
         getch();
     }
      else 
