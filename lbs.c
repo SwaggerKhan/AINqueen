@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include<conio.h>
 #include <time.h>
+#include<hill.h>
 int siz ;
 int k ;
 
@@ -11,6 +12,30 @@ int k ;
 
 int answers[50][50] = {};
 //answers[row] = column;
+void printA(int array[])
+{
+    int i;
+    for(i=0; i<siz-1; i++) printf("(%i,%i),",i,array[i]);
+    printf("(%i,%i)",siz-1,array[siz-1]);
+    printf("\n");
+}
+int getWt(int array[])
+{
+    int weight = 0;
+    int queen;
+    for(queen=0;queen<siz;queen++)
+    {    //for each queen
+        int nextqueen;
+        for(nextqueen=queen+1;nextqueen<siz;nextqueen++)
+        {        //for each of the other queens (nextqueen = queen to avoid counting pairs twice)
+            if(array[queen] == array[nextqueen] || abs(queen-nextqueen)==abs(array[queen]-array[nextqueen]))
+            {   //if conflict
+                weight++;
+            }
+        }
+    }
+    return weight;
+}
 
 void stochBeamSearch()
 {
@@ -73,28 +98,4 @@ void lbs()
     for(int i=0;i<k;i++) for(int j=0;j<siz;j++) answers[i][j] = getRand(siz);
     stochBeamSearch();
     getch();
-}
-void printA(int array[])
-{
-    int i;
-    for(i=0; i<siz-1; i++) printf("(%i,%i),",i,array[i]);
-    printf("(%i,%i)",siz-1,array[siz-1]);
-    printf("\n");
-}
-int getWt(int array[])
-{
-    int weight = 0;
-    int queen;
-    for(queen=0;queen<siz;queen++)
-    {    //for each queen
-        int nextqueen;
-        for(nextqueen=queen+1;nextqueen<siz;nextqueen++)
-        {        //for each of the other queens (nextqueen = queen to avoid counting pairs twice)
-            if(array[queen] == array[nextqueen] || abs(queen-nextqueen)==abs(array[queen]-array[nextqueen]))
-            {   //if conflict
-                weight++;
-            }
-        }
-    }
-    return weight;
 }

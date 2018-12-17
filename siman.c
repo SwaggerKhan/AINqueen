@@ -3,10 +3,35 @@
 #include<conio.h>
 #include <time.h>
 #include <math.h>
+#include<hill.h>
 
 #define e 2.718281828459045 //double
 int s;
 int ans[100] = {};
+void printArr(int array[])
+{
+    int i;
+    for(i=0; i<s-1; i++) printf("(%i,%i),",i,array[i]);
+    printf("(%i,%i)",s-1,array[s-1]);
+    printf("\n");
+}
+int getWeigh(int array[])
+{
+    int weight = 0;
+    int queen;
+    for(queen=0;queen<s;queen++)
+    {    //for each queen
+        int nextqueen;
+        for(nextqueen=queen+1;nextqueen<s;nextqueen++)
+        {        //for each of the other queens (nextqueen = queen to avoid counting pairs twice)
+            if(array[queen] == array[nextqueen] || abs(queen-nextqueen)==abs(array[queen]-array[nextqueen]))
+            {   //if conflict
+                weight++;
+            }
+        }
+    }
+    return weight;
+}
 int getRandOne()
 {
     return (rand()%1000)/1000;
@@ -52,31 +77,5 @@ void siman()
     ans[i] = rand()%s;
     printArr(ans);
     simulatedAnnealing();
-    getch();
-    return 0;
-}
-
-void printArr(int array[])
-{
-    int i;
-    for(i=0; i<s-1; i++) printf("(%i,%i),",i,array[i]);
-    printf("(%i,%i)",s-1,array[s-1]);
-    printf("\n");
-}
-int getWeigh(int array[])
-{
-    int weight = 0;
-    int queen;
-    for(queen=0;queen<s;queen++)
-    {    //for each queen
-        int nextqueen;
-        for(nextqueen=queen+1;nextqueen<s;nextqueen++)
-        {        //for each of the other queens (nextqueen = queen to avoid counting pairs twice)
-            if(array[queen] == array[nextqueen] || abs(queen-nextqueen)==abs(array[queen]-array[nextqueen]))
-            {   //if conflict
-                weight++;
-            }
-        }
-    }
-    return weight;
+    getch();;
 }
