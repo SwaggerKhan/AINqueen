@@ -2,67 +2,47 @@
 #include <stdlib.h>
 #include<conio.h>
 #include <time.h>
-#define SIZE 4
-#define k 2
+int siz ;
+int k ;
 
 //we have K states
 //look at all successors of each state (k * SIZE * SIZE-1) = k * 56
 //implement a weighted probability distribution, so that the probability of choosing a state is proportional to fitness 28*numSuccessors
 
-int answers[k][SIZE] = {};
+int answers[50][50] = {};
 //answers[row] = column;
 
-int getRand(int mod){
-    return rand() % mod;
-}
-
-void printArray(int array[]){
-    int i;
-    for(i=0; i<SIZE-1; i++) printf("(%i,%i),",i,array[i]);
-    printf("(%i,%i)",SIZE-1,array[SIZE-1]);
-    printf("\n");
-}
-
-int getWeight(int array[]){
-    int weight = 0;
-    int queen;
-    for(queen=0;queen<SIZE;queen++){    //for each queen
-        int nextqueen;
-        for(nextqueen=queen+1;nextqueen<SIZE;nextqueen++){        //for each of the other queens (nextqueen = queen to avoid counting pairs twice)
-            if(array[queen] == array[nextqueen] || abs(queen-nextqueen)==abs(array[queen]-array[nextqueen])){   //if conflict
-                weight++;
-            }
-        }
-    }
-    return weight; //0 is best, 28 is worst
-}
-
-void stochBeamSearch(){
+void stochBeamSearch()
+{
     int state,i,j;
-    for(i=0;i<k;i++){
-        if(getWeight(answers[i]) == 0){
+    for(i=0;i<k;i++)
+    {
+        if(getWt(answers[i]) == 0){
             printf("solution: ");
-            printArray(answers[i]);
+            printA(answers[i]);
             getch();
         }
     }
-    for(i=0;i<k;i++) for(j=0;j<SIZE;j++) answers[i][j] = getRand(SIZE);     //fill K boards randomly
+    for(i=0;i<k;i++) for(j=0;j<siz;j++) answers[i][j] = getRand(siz);     //fill K boards randomly
     //weighted prob arrays
     int weightProb[3][12*6*k]; //{kstate,row,column}
     /* kstate - which k is it from
      row - which row are we dealing with
      col - which col to switch to */
     int wpl = 0;
-    for(state=0;state<k;state++){   //for each state
+    for(state=0;state<k;state++)
+    {   //for each state
         int row;
-        for(row=0;row<SIZE;row++){  //for each row
+        for(row=0;row<siz;row++)
+        {  //for each row
             int col;
-            for(col=0;col<SIZE;col++){  //for each col
+            for(col=0;col<siz;col++){  //for each col
                 if (answers[state][row] != col){   //not including current state
                     int origcol = answers[state][row];
                     answers[state][row] = col;  //change state
-                    int w = getWeight(answers[state]);
-                    for(i=0;i<w;i++){
+                    int w = getWt(answers[state]);
+                    for(i=0;i<w;i++)
+                    {
                         weightProb[0][wpl] = state;
                         weightProb[1][wpl] = row;
                         weightProb[2][wpl] = col;
@@ -73,7 +53,8 @@ void stochBeamSearch(){
             }
         }
     }
-    for(i=0;i<k;i++){
+    for(i=0;i<k;i++)
+    {
         int n = getRand(wpl);
         //          state k             row             col
         answers[weightProb[0][n]][weightProb[1][n]] = weightProb[2][n];
@@ -82,10 +63,38 @@ void stochBeamSearch(){
     
 }
 
-int main(int argc, const char * argv[]){
+void lbs()
+{
     srand((unsigned int)time(NULL));
-    for(int i=0;i<k;i++) for(int j=0;j<SIZE;j++) answers[i][j] = getRand(SIZE);
+    printf("\nEnter value of n:\n");
+    scanf("%d",&siz);
+    printf("\nEnter value of k:\n");
+    scanf("%d",&k);
+    for(int i=0;i<k;i++) for(int j=0;j<siz;j++) answers[i][j] = getRand(siz);
     stochBeamSearch();
     getch();
-    return 0;
+}
+void printA(int array[])
+{
+    int i;
+    for(i=0; i<siz-1; i++) printf("(%i,%i),",i,array[i]);
+    printf("(%i,%i)",siz-1,array[siz-1]);
+    printf("\n");
+}
+int getWt(int array[])
+{
+    int weight = 0;
+    int queen;
+    for(queen=0;queen<siz;queen++)
+    {    //for each queen
+        int nextqueen;
+        for(nextqueen=queen+1;nextqueen<siz;nextqueen++)
+        {        //for each of the other queens (nextqueen = queen to avoid counting pairs twice)
+            if(array[queen] == array[nextqueen] || abs(queen-nextqueen)==abs(array[queen]-array[nextqueen]))
+            {   //if conflict
+                weight++;
+            }
+        }
+    }
+    return weight;
 }

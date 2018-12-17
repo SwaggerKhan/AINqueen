@@ -5,37 +5,11 @@
 #include <math.h>
 
 #define e 2.718281828459045 //double
-#define SIZE 4
-
-int answers[SIZE] = {};
-//answers[row] = column;
-
+int s;
+int ans[100] = {};
 int getRandOne()
 {
     return (rand()%1000)/1000;
-}
-
-void printArray(int array[]){
-    int i;
-    for(i=0; i<SIZE-1; i++)
-    printf("(%i,%i),",i,array[i]);
-    printf("(%i,%i)",SIZE-1,array[SIZE-1]);
-    printf("\n");
-}
-
-int getWeight(int array[])
-{
-    int weight = 0;
-    int queen;
-    for(queen=0;queen<SIZE;queen++){    //for each queen
-        int nextqueen;
-        for(nextqueen=queen+1;nextqueen<SIZE;nextqueen++){        //for each of the other queens (nextqueen = queen to avoid counting pairs twice)
-            if(array[queen] == array[nextqueen] || abs(queen-nextqueen)==abs(array[queen]-array[nextqueen])){   //if conflict
-                weight++;
-            }
-        }
-    }
-    return weight;
 }
 
 void simulatedAnnealing(){
@@ -43,39 +17,66 @@ void simulatedAnnealing(){
     int sch = .99;
     int k;
     int dw;
-    int successor[SIZE];
+    int successor[s];
     for(k=0;k<1700000;k++)
     {  //roughly even distribution of "took to long" and solution with this k value
         temp *= sch;
         int i;
-        for(i=0;i<SIZE;i++) 
-        successor[i] = answers[i];
-        successor[rand()%SIZE] = rand()%SIZE;
-        dw = getWeight(successor) - getWeight(answers);
+        for(i=0;i<s;i++) 
+        successor[i] = ans[i];
+        successor[rand()%s] = rand()%s;
+        dw = getWeigh(successor) - getWeigh(ans);
         if(dw > 0 || getRandOne() < pow(e,-dw*temp))
         {
-            for(i=0;i<SIZE;i++) 
-            answers[i] = successor[i];
-            printArray(answers);
+            for(i=0;i<s;i++) 
+            ans[i] = successor[i];
+            printArr(ans);
         }
-        if(getWeight(answers) == 0)
+        if(getWeigh(ans) == 0)
         {
             printf("solution: ");
-            printArray(answers);
+            printArr(ans);
             getch();
         }
     }
     printf("took too long");
 }
 
-int main(int argc, const char * argv[])
+void siman()
 {
     srand((unsigned int)time(NULL));
     int i;
-    for(i=0;i<SIZE;i++) 
-    answers[i] = rand()%SIZE;
-    printArray(answers);
+    printf("\nEnter value of n:\n");
+    scanf("%d",&s);
+    for(i=0;i<s;i++) 
+    ans[i] = rand()%s;
+    printArr(ans);
     simulatedAnnealing();
     getch();
     return 0;
+}
+
+void printArr(int array[])
+{
+    int i;
+    for(i=0; i<s-1; i++) printf("(%i,%i),",i,array[i]);
+    printf("(%i,%i)",s-1,array[s-1]);
+    printf("\n");
+}
+int getWeigh(int array[])
+{
+    int weight = 0;
+    int queen;
+    for(queen=0;queen<s;queen++)
+    {    //for each queen
+        int nextqueen;
+        for(nextqueen=queen+1;nextqueen<s;nextqueen++)
+        {        //for each of the other queens (nextqueen = queen to avoid counting pairs twice)
+            if(array[queen] == array[nextqueen] || abs(queen-nextqueen)==abs(array[queen]-array[nextqueen]))
+            {   //if conflict
+                weight++;
+            }
+        }
+    }
+    return weight;
 }
